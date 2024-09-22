@@ -12,6 +12,17 @@ const db = JSON.parse(data);
 const router = jsonServer.router(db);
 const middlewares = jsonServer.defaults();
 
+
+
+// Use middlewares
+// server.use(middlewares);
+
+// Add this before server.use(router)
+server.use(jsonServer.rewriter({
+    '/api/*': '/$1',
+    '/blog/:resource/:id/show': '/:resource/:id'
+}));
+
 // Enable CORS
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // Allow any origin
@@ -19,15 +30,6 @@ server.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
-
-// Use middlewares
-server.use(middlewares);
-
-// Add this before server.use(router)
-server.use(jsonServer.rewriter({
-    '/api/*': '/$1',
-    '/blog/:resource/:id/show': '/:resource/:id'
-}));
 
 server.use(router);
 server.listen(3000, () => {
