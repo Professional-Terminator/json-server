@@ -15,7 +15,7 @@ const middlewares = jsonServer.defaults();
 
 
 // Use middlewares
-// server.use(middlewares);
+server.use(middlewares);
 
 // Add this before server.use(router)
 server.use(jsonServer.rewriter({
