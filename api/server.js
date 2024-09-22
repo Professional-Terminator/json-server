@@ -13,7 +13,12 @@ const router = jsonServer.router(db);
 const middlewares = jsonServer.defaults();
 
 // Enable CORS
-server.use(cors()); // Add this line to enable CORS
+server.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Allow any origin
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
 
 // Use middlewares
 server.use(middlewares);
