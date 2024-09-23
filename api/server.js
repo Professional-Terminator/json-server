@@ -20,33 +20,27 @@
 
 // module.exports = server
 
-
 const jsonServer = require('json-server');
-const server = jsonServer.create();
 const path = require('path');
 
-// Define the path to your db.json
-const filePath = path.join(__dirname, 'db.json');
+const server = jsonServer.create();
 
-// Use the router with the db.json file to allow write operations
-const router = jsonServer.router(filePath);
-const middlewares = jsonServer.defaults();
+// Enable both read and write operations
+const router = jsonServer.router(path.join(__dirname, 'db.json'));
 
-server.use(middlewares);
+// Use default middlewares for JSON Server
+server.use(jsonServer.defaults());
 
-// Custom rewriter rules
-server.use(jsonServer.rewriter({
-    '/api/*': '/$1',
-    '/blog/:resource/:id/show': '/:resource/:id'
-}));
+// Add custom middleware (optional)
+// server.use((req, res, next) => {
+//     // Your custom middleware logic here
+//     next();
+// });
 
-// Use the router to handle the requests
 server.use(router);
 
-// Start the server
-server.listen(3000, () => {
-    console.log('JSON Server is running');
-});
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`JSON Server is running on port ${port}`);   
 
-// Export the Server API
-module.exports = server;
+});
