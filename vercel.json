@@ -6,13 +6,10 @@
       "includeFiles": "db.json"
     }
   },
-  "build": {
-    "command": "node server.js"
-  },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "server.js"
+      "source": "/(.*)",
+      "destination": "api/server.js"
     }
   ]
 }
